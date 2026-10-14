@@ -4,14 +4,19 @@ include 'koneksi.php';
 
 
 // percobaan biar form nya bisa ngirim data ke database, tapi g bisa
-// $namapelapor = $_POST["nama_pelapor"] ?? "";
-// $namafasilitas = $_POST["nama_fasilitas"] ?? "";
-// $lokasikerusakan = $_POST["lokasi"] ?? "";
-// $kategori = $_POST["id_kategori"] ?? "";;
-// $deskripsi = $_POST["deskripsi"] ?? "";
-// $prioritas = $_POST["prioritas"] ?? "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $namapelapor = $_POST["nama_pelapor"] ?? "";
+    $namafasilitas = $_POST["nama_fasilitas"] ?? "";
+    $lokasikerusakan = $_POST["lokasi"] ?? "";
+    $kategori = $_POST["id_kategori"] ?? "";;
+    $deskripsi = $_POST["deskripsi"] ?? "";
+    $prioritas = $_POST["prioritas"] ?? "";
 
 
+    $sql = "INSERT INTO laporan_kerusakan (nama_pelapor, nama_fasilitas, lokasi, id_kategori, deskripsi, prioritas)
+            VALUES ('$namapelapor', '$namafasilitas', '$lokasikerusakan', '$kategori', '$deskripsi', '$prioritas')";
+
+}
 // if ($_SERVER["REQUEST_METHOD"] == "POST") {
 //     if (isset($_POST["nama"]) && !empty($namapelapor)) {
 //         $laporan_kerusakan = mysqli_query($conn, "INSERT INTO laporan_kerusakan VALUE $namapelapor");
@@ -147,7 +152,7 @@ include 'koneksi.php';
             <p>Lengkapi data berikut untuk melaporkan fasilitas yang rusak.</p>
 
             <!-- TANTANGAN BONUS CREATE: Buat proses PHP agar POST menyimpan data. -->
-            <form action="index.php" method="post">
+            <form action="index.php#daftar-laporan" method="post">
                 <fieldset>
                     <legend>Data Pelaporan</legend>
 
@@ -202,6 +207,14 @@ include 'koneksi.php';
         <section id="daftar-laporan" aria-labelledby="judul-daftar" class="daftar-laporan">
             <h2 id="judul-daftar">Daftar Laporan Kerusakan</h2>
             <p>Seluruh laporan yang tercatat pada database ditampilkan di bagian ini.</p>
+
+            <?php 
+            if (mysqli_query($conn, $sql)) {
+            echo "New record created successfully";
+            } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+            ?>
             <!-- TANTANGAN WAJIB:
                  1. Buat sendiri koneksi PHP ke MySQL.
                  2. Jalankan query SELECT untuk mengambil data dari laporan_kerusakan.
@@ -244,3 +257,7 @@ include 'koneksi.php';
     </footer>
 </body>
 </html>
+
+<?php 
+mysqli_close($conn);
+?>
