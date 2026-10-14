@@ -1,5 +1,32 @@
 <?php
 include 'koneksi.php';
+
+
+
+// percobaan biar form nya bisa ngirim data ke database, tapi g bisa
+// $namapelapor = $_POST["nama_pelapor"] ?? "";
+// $namafasilitas = $_POST["nama_fasilitas"] ?? "";
+// $lokasikerusakan = $_POST["lokasi"] ?? "";
+// $kategori = $_POST["id_kategori"] ?? "";;
+// $deskripsi = $_POST["deskripsi"] ?? "";
+// $prioritas = $_POST["prioritas"] ?? "";
+
+
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//     if (isset($_POST["nama"]) && !empty($namapelapor)) {
+//         $laporan_kerusakan = mysqli_query($conn, "INSERT INTO laporan_kerusakan VALUE $namapelapor");
+//     }
+// }
+// if (!empty($namapelapor) && !empty($namafasilitas) && !empty($lokasikerusakan) && !empty($kategori) && !empty($deskripsi) && !empty($prioritas)) {
+//     echo "Nama : $namapelapor <br>";
+//     echo "nama fasilitas : $namafasilitas <br>";
+//     echo "lokasi : $lokasikerusakan <br>";
+//     echo "kategori : $kategori <br>";
+//     echo "deskripsi : $deskripsi <br>";
+//     echo "prioritas : $prioritas <br>";
+// }
+
+
 ?>
 
 
@@ -15,9 +42,14 @@ include 'koneksi.php';
         header {
             max-width: auto;
             margin: 0 auto;
-            padding: 5px 30px 40px 30px;
+            padding: 5px 30px 30px 30px;
             background-color: #bf7cc9;
             color: black;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        header p {
+            position: absolute;
+            top: 50px;
         }
         body {
             margin: 0;
@@ -30,8 +62,14 @@ include 'koneksi.php';
             padding: 5px 30px 60px 30px;
             background-color: #f4f4f4;
         }
-        table, th, td {
+        table {
+            outline: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
             border: 1px solid black;
+            padding: 8px;
+            text-align: left;
         }
         .ConFooter {
             max-width: auto;
@@ -39,6 +77,56 @@ include 'koneksi.php';
             padding: 20px;
             background-color: purple;
             color: white;
+        }
+        button {
+            background-color: #bf7cc9;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        a {
+            color: black;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        nav {
+            position: absolute;
+            top: 45px;
+            right: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+        }
+        form {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        fieldset {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        legend {
+            font-weight: bold;
+        }
+        label {
+            display: block;
+        }
+        select {
+            width: 100%;
+            height: 25px;
+        }
+        input, textarea {
+            width: 99.5%;
+            height: 50px;
+
         }
     </style>
 </head>
@@ -59,7 +147,7 @@ include 'koneksi.php';
             <p>Lengkapi data berikut untuk melaporkan fasilitas yang rusak.</p>
 
             <!-- TANTANGAN BONUS CREATE: Buat proses PHP agar POST menyimpan data. -->
-            <form action="simpan_laporan.php" method="post">
+            <form action="index.php" method="post">
                 <fieldset>
                     <legend>Data Pelaporan</legend>
 
@@ -111,7 +199,7 @@ include 'koneksi.php';
             <p><small>Catatan: tombol Kirim Laporan belum menyimpan apa pun. Fitur Create merupakan tantangan bonus.</small></p>
         </section>
 
-        <section id="daftar-laporan" aria-labelledby="judul-daftar">
+        <section id="daftar-laporan" aria-labelledby="judul-daftar" class="daftar-laporan">
             <h2 id="judul-daftar">Daftar Laporan Kerusakan</h2>
             <p>Seluruh laporan yang tercatat pada database ditampilkan di bagian ini.</p>
             <!-- TANTANGAN WAJIB:
