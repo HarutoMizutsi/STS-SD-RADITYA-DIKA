@@ -208,6 +208,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2 id="judul-daftar">Daftar Laporan Kerusakan</h2>
             <p>Seluruh laporan yang tercatat pada database ditampilkan di bagian ini.</p>
 
+            <?php 
+            if (mysqli_query($conn, $sql)) {
+            echo "New record created successfully";
+            } else {
+            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+            }
+            ?>
             <!-- TANTANGAN WAJIB:
                  1. Buat sendiri koneksi PHP ke MySQL.
                  2. Jalankan query SELECT untuk mengambil data dari laporan_kerusakan.
@@ -229,7 +236,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <?php
                 $laporan_kerusakan = mysqli_query($conn, "SELECT * FROM laporan_kerusakan");
                 $no = 1;
-
+                
                 while ($data = mysqli_fetch_assoc($laporan_kerusakan)) {
                     echo "<tr>
                         <td>" . $no++ . "</td>
