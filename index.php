@@ -138,9 +138,9 @@ include 'koneksi.php';
                 while ($data = mysqli_fetch_assoc($laporan_kerusakan)) {
                     echo "<tr>
                         <td>" . $data['id_laporan'] . "</td>
-                        <td>" . $data['nama_pelapor'] . "</td>
                         <td>" . $data['nama_fasilitas'] . "</td>
                         <td>" . $data['lokasi'] . "</td>
+                        <td>" . $data['nama_pelapor'] . "</td>
                         <td>" . $data['prioritas'] . "</td>
                         <td>" . $data['status'] . "</td>
                         <td>" . $data['tanggal_laporan'] . "</td>
