@@ -52,9 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             color: black;
             font-family: Arial, Helvetica, sans-serif;
         }
+        h1 {
+            color: white;
+        }
         header p {
             position: absolute;
             top: 50px;
+            color: white;
         }
         body {
             margin: 0;
@@ -83,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: purple;
             color: white;
         }
-        button {
+        .btn-primary {
             background-color: #bf7cc9;
             color: white;
             border: none;
@@ -91,8 +95,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
             border-radius: 5px;
         }
+        .update {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .update:hover {
+            background-color: #45a049;
+        }
+        .deletekey {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .deletekey:hover {
+            background-color: #db1a1a;
+        }
         a {
-            color: black;
+            color: white;
             text-decoration: none;
             padding: 10px 20px;
             border-radius: 5px;
@@ -112,6 +138,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #ffffff;
             padding: 20px;
             border-radius: 5px;
+        }
+        .formupdate {
+            display: inline-block;
+            margin-right: 10px;
         }
         fieldset {
             border: 1px solid #ccc;
@@ -198,7 +228,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </select>
                     </p>
 
-                    <p><button type="submit">Kirim Laporan</button></p>
+                    <p><button class="btn-primary"type="submit">Kirim Laporan</button></p>
                 </fieldset>
             </form>
             <p><small>Catatan: tombol Kirim Laporan belum menyimpan apa pun. Fitur Create merupakan tantangan bonus.</small></p>
@@ -232,6 +262,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th scope="col">Prioritas</th>
                         <th scope="col">Status</th>
                         <th scope="col">Tanggal</th>
+                        <th scope="col">Aksi</th>
                     </tr>
                 </thead>
                 <?php
@@ -239,14 +270,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $no = 1;
                 
                 while ($data = mysqli_fetch_assoc($laporan_kerusakan)) {
+                    $id = $data['id_laporan'] ?? '';
+                    $status_sekarang = $data['status'] ?? 'Menunggu';
+
                     echo "<tr>
                         <td>" . $no++ . "</td>
                         <td>" . $data['nama_fasilitas'] . "</td>
                         <td>" . $data['lokasi'] . "</td>
                         <td>" . $data['nama_pelapor'] . "</td>
                         <td>" . $data['prioritas'] . "</td>
-                        <td>" . $data['status'] . "</td>
+                        <td>" . $status_sekarang . "</td>
                         <td>" . $data['tanggal_laporan'] . "</td>
+                        <td>
+                            <form class='formupdate'action='update.php' method='POST'>
+                                <input type='hidden' name='id_laporan' value='$id'>
+                                <select name='status'>
+                                    <option value='Menunggu' " . ($status_sekarang == 'Menunggu' ? 'selected' : '') . ">Menunggu</option>
+                                    <option value='Diproses' " . ($status_sekarang == 'Diproses' ? 'selected' : '') . ">Diproses</option>
+                                    <option value='Selesai' " . ($status_sekarang == 'Selesai' ? 'selected' : '') . ">Selesai</option>
+                                </select>
+                                <button class='update' type='submit'>Update</button>
+                            </form> 
+                            <button class='deletekey' onclick=\"if(confirm('Apakah Anda yakin ingin menghapus laporan ini?')) { window.location.href='delete.php?id_laporan=" . $id . "'; }\">Hapus</button>
+                        </td>
                     </tr>";
                 }
                 ?>
