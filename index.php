@@ -2,7 +2,6 @@
 include 'koneksi.php';
 
 
-// percobaan biar form nya bisa ngirim data ke database, tapi g bisa
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $namapelapor = $_POST["nama_pelapor"] ?? "";
     $namafasilitas = $_POST["nama_fasilitas"] ?? "";
@@ -17,21 +16,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 }
 
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     if (isset($_POST["nama"]) && !empty($namapelapor)) {
-//         $laporan_kerusakan = mysqli_query($conn, "INSERT INTO laporan_kerusakan VALUE $namapelapor");
-//     }
-// }
-// if (!empty($namapelapor) && !empty($namafasilitas) && !empty($lokasikerusakan) && !empty($kategori) && !empty($deskripsi) && !empty($prioritas)) {
-//     echo "Nama : $namapelapor <br>";
-//     echo "nama fasilitas : $namafasilitas <br>";
-//     echo "lokasi : $lokasikerusakan <br>";
-//     echo "kategori : $kategori <br>";
-//     echo "deskripsi : $deskripsi <br>";
-//     echo "prioritas : $prioritas <br>";
-// }
-
-
 ?>
 
 
@@ -42,138 +26,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pelaporan Kerusakan Fasilitas Sekolah</title>
     <!-- TANTANGAN UI/UX: Tambahkan styling CSS, Bootstrap, atau Tailwind sendiri. -->
-
-    <style>
-        header {
-            max-width: auto;
-            margin: 0 auto;
-            padding: 5px 30px 30px 30px;
-            background-color: #bf7cc9;
-            color: black;
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        h1 {
-            color: white;
-        }
-        header p {
-            position: absolute;
-            top: 50px;
-            color: white;
-        }
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-        main {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 5px 30px 60px 30px;
-            background-color: #f4f4f4;
-        }
-        table {
-            outline: 1px solid black;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-        .ConFooter {
-            max-width: auto;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: purple;
-            color: white;
-        }
-        .btn-primary {
-            background-color: #bf7cc9;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .update {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .update:hover {
-            background-color: #45a049;
-        }
-        .deletekey {
-            background-color: #ff4d4d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .deletekey:hover {
-            background-color: #db1a1a;
-        }
-        a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-        a:hover {
-            color: white;
-            text-decoration: underline;
-        }
-        nav {
-            position: absolute;
-            top: 45px;
-            right: 30px;
-            font-family: Arial, Helvetica, sans-serif;
-            font-weight: bold;
-        }
-        form {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 5px;
-        }
-        .formupdate {
-            display: inline-block;
-            margin-right: 10px;
-        }
-        fieldset {
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        legend {
-            font-weight: bold;
-        }
-        label {
-            display: block;
-        }
-        select {
-            width: 100%;
-            height: 25px;
-        }
-        input, textarea {
-            width: 99.5%;
-            height: 50px;
-
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!-- Bagian ini merupakan starter HTML. Belum ada koneksi database ataupun query. -->
     <header>
         <h1>Sistem Pelaporan Kerusakan Fasilitas Sekolah</h1>
         <p>Catat dan pantau laporan kerusakan fasilitas sekolah.</p>
-        <nav aria-label="Navigasi utama">
-            <a href="#form-laporan">Buat Laporan</a>
-            <a href="#daftar-laporan">Daftar Laporan</a>
-        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="nav-container">
+            <nav aria-label="Navigasi utama">
+                <a href="#form-laporan">Buat Laporan</a>
+                <a href="#daftar-laporan">Daftar Laporan</a>
+            </nav>
+        </div>
+        
     </header>
 
     <main>
@@ -203,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <p>
                         <label for="id_kategori">Kategori fasilitas</label>
-                        <select id="id_kategori" name="id_kategori" required>
+                        <select class="kategori" id="id_kategori" name="id_kategori" required>
                             <option value="">-- Pilih kategori --</option>
                             <!-- Nilai berikut sesuai dengan data awal kategori_fasilitas. -->
                             <option value="1">Elektronik</option>
@@ -220,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <p>
                         <label for="prioritas">Prioritas</label>
-                        <select id="prioritas" name="prioritas" required>
+                        <select class="kategori" id="prioritas" name="prioritas" required>
                             <option value="">-- Pilih prioritas --</option>
                             <option value="Rendah">Rendah</option>
                             <option value="Sedang">Sedang</option>
@@ -231,7 +102,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p><button class="btn-primary"type="submit">Kirim Laporan</button></p>
                 </fieldset>
             </form>
-            <p><small>Catatan: tombol Kirim Laporan belum menyimpan apa pun. Fitur Create merupakan tantangan bonus.</small></p>
         </section>
 
         <section id="daftar-laporan" aria-labelledby="judul-daftar" class="daftar-laporan">
@@ -252,6 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                  3. Ganti baris placeholder pada tbody dengan perulangan hasil query.
                  4. Jangan mengetik data database secara manual di HTML.
             -->
+            <div class="table-wrap">
             <table>
                 <thead>
                     <tr>
@@ -265,6 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <th scope="col">Aksi</th>
                     </tr>
                 </thead>
+                <tbody>
                 <?php
                 $laporan_kerusakan = mysqli_query($conn, "SELECT * FROM laporan_kerusakan");
                 $no = 1;
@@ -272,19 +144,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 while ($data = mysqli_fetch_assoc($laporan_kerusakan)) {
                     $id = $data['id_laporan'] ?? '';
                     $status_sekarang = $data['status'] ?? 'Menunggu';
+                    $nama_fasilitas = htmlspecialchars($data['nama_fasilitas'] ?? '');
+                    $lokasi = htmlspecialchars($data['lokasi'] ?? '');
+                    $nama_pelapor = htmlspecialchars($data['nama_pelapor'] ?? '');
+                    $prioritas = htmlspecialchars($data['prioritas'] ?? '');
+                    $tanggal = htmlspecialchars($data['tanggal_laporan'] ?? '');
 
                     echo "<tr>
-                        <td>" . $no++ . "</td>
-                        <td>" . $data['nama_fasilitas'] . "</td>
-                        <td>" . $data['lokasi'] . "</td>
-                        <td>" . $data['nama_pelapor'] . "</td>
-                        <td>" . $data['prioritas'] . "</td>
-                        <td>" . $status_sekarang . "</td>
-                        <td>" . $data['tanggal_laporan'] . "</td>
-                        <td>
+                        <td data-label='No.'>" . $no++ . "</td>
+                        <td data-label='Fasilitas'>" . $nama_fasilitas . "</td>
+                        <td data-label='Lokasi'>" . $lokasi . "</td>
+                        <td data-label='Pelapor'>" . $nama_pelapor . "</td>
+                        <td data-label='Prioritas'>" . $prioritas . "</td>
+                        <td data-label='Status'>" . htmlspecialchars($status_sekarang) . "</td>
+                        <td data-label='Tanggal'>" . $tanggal . "</td>
+                        <td data-label='Aksi'>
                             <form class='formupdate'action='update.php' method='POST'>
                                 <input type='hidden' name='id_laporan' value='$id'>
-                                <select name='status'>
+                                <select class='selstat' name='status'>
                                     <option value='Menunggu' " . ($status_sekarang == 'Menunggu' ? 'selected' : '') . ">Menunggu</option>
                                     <option value='Diproses' " . ($status_sekarang == 'Diproses' ? 'selected' : '') . ">Diproses</option>
                                     <option value='Selesai' " . ($status_sekarang == 'Selesai' ? 'selected' : '') . ">Selesai</option>
@@ -296,13 +173,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </tr>";
                 }
                 ?>
+                </tbody>
             </table>
+            </div>
         </section>
     </main>
 
     <footer class = "ConFooter">
-        <p>&copy; 2024 Sistem Pelaporan Kerusakan Fasilitas Sekolah.</p>
+        <p>&copy; 2026 Sistem Pelaporan Kerusakan Fasilitas Sekolah.</p>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>
 
